@@ -19,64 +19,65 @@ class TimeIH {
     private fun get_12_format(hours : Int): String{
         val ZZ : String
         if (hours in 0..11) ZZ= "AM"
-        else {ZZ = "PM"
-
-        }
+        else ZZ = "PM"
         return ZZ
     }
     fun method_a() : String {
         var a : Int = 0
         var time_of_day:String = get_12_format(hours)
-        if(time_of_day == "PM") a = hours - 12 else a = hours
+        if(time_of_day == "PM") a = hours - 12 else {a = hours}
+        if (hours==0||hours==12) a = 12
         var ret_val : String = "$a:$minutes:$seconds $time_of_day"
         println(ret_val)
         return ret_val
     }
     fun method_b(in_time : TimeIH) : TimeIH? {
-        var c_time=TimeIH(22,10,11)
-        var ret_val = this.method_d(in_time,c_time)
+        var res = TimeIH()
+        var ret_val = res.method_d(in_time,this)
         return ret_val
     }
     fun method_c(in_time : TimeIH) : TimeIH?{
-        var c_time=TimeIH(22,10,11)
-        var ret_val = this.method_e(c_time,in_time)
+        var res = TimeIH()
+        var ret_val = res.method_e(this,in_time)
         return ret_val
     }
     fun method_d(in_time1 : TimeIH,in_time2 : TimeIH) : TimeIH?{
+        var res = TimeIH()
         var s_seconds :Int = in_time1.seconds+in_time2.seconds
         var s_minutes :Int= in_time1.minutes+in_time2.minutes
         var s_hours:Int = in_time1.hours+in_time2.hours
         if(s_seconds > 59)
-        {this.seconds = s_seconds - 60
+        {res.seconds = s_seconds - 60
             s_minutes+=1
-        }else this.seconds = s_seconds
+        }else res.seconds = s_seconds
         if(s_minutes > 59)
-        {this.minutes = s_minutes- 60
+        {res.minutes = s_minutes- 60
             s_hours+=1
-        }else this.minutes = s_minutes
+        }else res.minutes = s_minutes
         if(s_hours > 23) {
-            this.hours = s_hours - 24
-        }else this.hours = s_hours
-        this.method_a()
-        return  this
+            res.hours = s_hours - 24
+        }else res.hours = s_hours
+        res.method_a()
+        return  res
     }
     fun method_e(in_time1 : TimeIH,in_time2 : TimeIH) : TimeIH?{
+        var res = TimeIH()
         var s_seconds = in_time1.seconds-in_time2.seconds
         var s_minutes = in_time1.minutes-in_time2.minutes
         var s_hours = in_time1.hours-in_time2.hours
         if(s_seconds < 0)
-        {   this.seconds = s_seconds + 60
+        {   res.seconds = s_seconds + 60
             s_minutes-=1
-        }else this.seconds = s_seconds
+        }else res.seconds = s_seconds
         if(s_minutes < 0)
-        {this.minutes = s_minutes + 60
+        {res.minutes = s_minutes + 60
             s_hours-=1
-        }else this.minutes = s_minutes
+        }else res.minutes = s_minutes
         if(s_hours < 0) {
-            this.hours = s_hours + 24
-        }else this.hours = s_hours
-        this.method_a()
-        return  this
+            res.hours = s_hours + 24
+        }else res.hours = s_hours
+        res.method_a()
+        return  res
     }
     companion object {
         fun from_date(date: Date): TimeIH = with(GregorianCalendar()) {
@@ -195,14 +196,31 @@ fun main() {
     time_default.method_a()
     time_date.method_a()
     time_set.method_a()
+
     println("Задание №2 TimeIH")
     time_default.method_b(time_set)
+
     println("Задание №3 TimeIH")
     time_default.method_c(time_set)
+
     println("Задание №4 TimeIH")
     time_default.method_d(c_time,time_set)
+    time_default.method_d(time_default,time_set)
     println("Задание №5 TimeIH")
     time_default.method_e(c_time,time_set)
+    time_default.method_e(time_default,time_set)
+    println("Исправление ошибок")
+    val time11 = TimeIH(0, 0, 0)
+    val time22 = TimeIH(12, 0, 0)
+    time11.method_a()
+    time22.method_a()
+    val time1 = TimeIH(23, 59, 59)
+    val time2 = TimeIH(12, 0, 1)
+    val time3 = TimeIH(0, 0, 0)
+    val time4 = TimeIH(0, 0, 1)
+    time1.method_b(time2)
+    time3.method_c(time4)
+
 }
 
 fun randomValue(maxValue: Int): Int {

@@ -9,12 +9,29 @@
         android:id="@+id/navigation_home"
         android:name="ua.kpi.comsys.ip8404.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_dashboard"
+            app:destination="@id/navigation_dashboard" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
         android:name="ua.kpi.comsys.ip8404.ui.dashboard.DashboardFragment"
-        android:label="action2"
-        tools:layout="@layout/fragment_dashboard" />
+        android:label="Graphics"
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_navigation_dashboard_to_navigation_movie"
+            app:destination="@id/navigation_movie" />
+    </fragment>
 
+    <fragment
+        android:id="@+id/navigation_movie"
+        android:name="ua.kpi.comsys.ip8404.ui.movie.MovieActivity"
+        android:label="Movies"
+        tools:layout="@layout/fragment_movie" >
+        <action
+            android:id="@+id/action_navigation_movie_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
 </navigation>

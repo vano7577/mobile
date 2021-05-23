@@ -9,7 +9,11 @@
     <item
         android:id="@+id/navigation_dashboard"
         android:icon="@drawable/ic_action_2"
-        android:title="action_2" />
+        android:title="Graphics" />
+    <item
+        android:id="@+id/navigation_movie"
+        android:icon="@drawable/ic_movie"
+        android:title="Movie" />
 
 
 </menu>

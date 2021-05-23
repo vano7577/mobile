@@ -6,8 +6,14 @@ import androidx.lifecycle.ViewModel
 
 class DashboardViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is action2"
+    var prev: DashboardStage? = null
+    val stage = MutableLiveData<DashboardStage>(DashboardStage.Plot)
+
+    fun changeStage(newStage: DashboardStage) {
+        val current = stage.value
+        if (newStage != current) {
+            prev = current
+            stage.value = newStage
+        }
     }
-    val text: LiveData<String> = _text
 }

@@ -5,14 +5,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
-    <ListView
-        android:id="@+id/id_listView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="60dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageButton
+        android:id="@+id/addButton"
+        android:src="@drawable/ic_add_button"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="15dp"
+        android:paddingEnd="-1dp"
+        android:paddingStart="1dp"
+        android:elevation="5dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="Add" />
+
+    <SearchView
+        android:id="@+id/searchBar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="70dp"
+        android:elevation="3.5dp"
+        android:gravity="start"
+        android:queryBackground="@color/white"
+        android:iconifiedByDefault="false"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="o" />
+
+    <include
+        android:id="@+id/loadingProp"
+        layout="@layout/loading_layout" />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_marginBottom="60dp"
+        android:layout_height="match_parent">
+
+        <com.tsuryo.swipeablerv.SwipeableRecyclerView
+            android:nestedScrollingEnabled="false"
+            android:id="@+id/moviesRecylerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:rightBgColor="@color/red"
+            app:rightImage="@drawable/ic_trash"
+            app:rightText="Delete"
+            android:clipToPadding="false"
+            android:paddingTop="54dp"
+            android:scrollbars="vertical"
+            app:layoutManager="LinearLayoutManager" />
+
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

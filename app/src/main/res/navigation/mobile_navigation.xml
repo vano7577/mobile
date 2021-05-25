@@ -31,7 +31,17 @@
         android:label="Movies"
         tools:layout="@layout/fragment_movie" >
         <action
-            android:id="@+id/action_navigation_movie_to_navigation_home"
+            android:id="@+id/action_navigation_movie_to_navigation_image"
+            app:destination="@id/navigation_image" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_image"
+        android:name="ua.kpi.comsys.ip8404.ui.image.ImageActivity"
+        android:label="Image"
+        tools:layout="@layout/fragment_image" >
+        <action
+            android:id="@+id/action_navigation_image_to_navigation_home"
             app:destination="@id/navigation_home" />
     </fragment>
 </navigation>

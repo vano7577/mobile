@@ -22,7 +22,8 @@ class MainActivity : AppCompatActivity() {
             setOf(
                 R.id.navigation_home,
                 R.id.navigation_dashboard,
-                R.id.navigation_movie
+                R.id.navigation_movie,
+                R.id.navigation_image
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

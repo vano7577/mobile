@@ -36,8 +36,7 @@ class ImageActivity : Fragment() {
 
         val spannedGridLayoutManager = SpannedGridLayoutManager(
             orientation = SpannedGridLayoutManager.Orientation.VERTICAL,
-            spans = 4
-        )
+          spans = 4)
 
         spannedGridLayoutManager.spanSizeLookup =
             SpannedGridLayoutManager.SpanSizeLookup { position ->

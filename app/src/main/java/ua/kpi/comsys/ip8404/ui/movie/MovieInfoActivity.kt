@@ -42,7 +42,7 @@ suspend fun fillInfo(mainLayout: View, imdbID: String, loadingProp: View): Boole
             mainLayout.findViewById<TextView>(R.id.actors).text = "Actors: "+ movieInfo.Actors
             mainLayout.findViewById<TextView>(R.id.country).text = "Country: " + movieInfo.Country
             mainLayout.findViewById<TextView>(R.id.language).text = "Language: " + movieInfo.Language
-            mainLayout.findViewById<TextView>(R.id.production).text = "Production" +  movieInfo.Production
+            mainLayout.findViewById<TextView>(R.id.production).text = "Production: " +  movieInfo.Production
             mainLayout.findViewById<TextView>(R.id.released).text = "Released: "+ movieInfo.Released
             mainLayout.findViewById<TextView>(R.id.runtime).text = "Runtime: "+movieInfo.Runtime
             mainLayout.findViewById<TextView>(R.id.awards).text = "Awards: "+movieInfo.Awards

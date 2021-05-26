@@ -41,7 +41,7 @@ class ImageActivity : Fragment() {
 
         spannedGridLayoutManager.spanSizeLookup =
             SpannedGridLayoutManager.SpanSizeLookup { position ->
-                when (position % 9) {
+                when (position % 10) {
                     1 -> SpanSize(2, 2)
                     5 -> SpanSize(2, 2)
                     else ->

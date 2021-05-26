@@ -10,9 +10,6 @@ class MovieInfo(
     var imdbID: String = "", var Type: String = "", var Production: String = ""
 )
 
-/*
-* {"Title":,"Year":,"Rated":,"Released":,"Runtime":,"Genre":,"Director":"","Writer","Actors":,"Plot":,"Language":,"Country":,"Awards":,"Poster":,"imdbRating":,"imdbVotes":,"imdbID":,"Type":,"Production":}
-*/
 data class Movie(
     val Title: String = "", val Year: String = "", val imdbID: String = "",
     val Type: String = "", val Poster: String = "",

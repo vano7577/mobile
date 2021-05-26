@@ -1,16 +1,11 @@
 package ua.kpi.comsys.ip8404.ui.movie
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewManager
-import android.widget.ImageButton
-import android.widget.ListView
-import android.widget.SearchView
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tsuryo.swipeablerv.SwipeLeftRightCallback
@@ -30,9 +25,7 @@ class MovieActivity : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_movie, container, false)
-
         val recycler: SwipeableRecyclerView = view.findViewById(R.id.moviesRecylerView)
-
         val loManager = LinearLayoutManager(context)
         val data = mutableListOf<Movie>()
         adapter = context?.let { MovieAdapter(it, data) }
@@ -51,11 +44,8 @@ class MovieActivity : Fragment() {
             }
         })
 
-        CoroutineScope(IO).launch {
-            if (context == null) error("context == null")
-            val bookSet = read_movie_file(requireContext())
-            adapter?.let { addTableRows(view, it, bookSet) }
-        }
+        val searchBar = view.findViewById<SearchView>(R.id.searchBar)
+        initSearchBarEvents(searchBar)
 
         val addButton: ImageButton = view.findViewById(R.id.addButton)
         addButton.setOnClickListener {
@@ -96,28 +86,39 @@ fun MovieActivity.initSearchBarEvents(searchBar: SearchView) {
         }
 
         override fun onQueryTextChange(newText: String?): Boolean {
-            adapter?.filter?.filter(newText)
-            return newText != null
+            if (newText == null || newText.length < 3) return false
+            val loadingProp = view?.findViewById<View>(R.id.loadingProp)
+            loadingProp?.visibility = View.VISIBLE
+            CoroutineScope(IO).launch {
+                val movies = fetchMoviesFromWeb(newText)?.Search
+                changeRecyclerRows(loadingProp, movies)
+            }
+            return true
         }
 
     })
 }
 
-suspend fun MovieActivity.addTableRows(
-    view: View,
-    adapter: MovieAdapter,
-    movieSet: MutableList<Movie>
+suspend fun MovieActivity.changeRecyclerRows(
+    loadingProp: View?,
+    movieSet: MutableList<Movie>?
 ): Unit {
+    if (loadingProp == null) return
+if(movieSet==null){
+    adapter?.data?.clear()
+    adapter?.dataFiltered?.clear()
+} else{
+    adapter?.data = movieSet
+    adapter?.dataFiltered = movieSet
     withContext(Main) {
-
-        val loadingProp: TextView = view.findViewById(R.id.loadingProp)
-        (loadingProp.getParent() as ViewManager).removeView(loadingProp)
-
-        val searchBar = view.findViewById<SearchView>(R.id.searchBar)
-        initSearchBarEvents(searchBar)
-
-        adapter.data = movieSet
-        adapter.dataFiltered = movieSet
-        adapter.notifyDataSetChanged()
-    }
+        if (movieSet.size == 0) {
+            Toast.makeText(
+                context,
+                "No Movies Found",
+                Toast.LENGTH_SHORT
+            ).show();
+        }
+        loadingProp.visibility = View.GONE
+        adapter?.notifyDataSetChanged()
+    }}
 }

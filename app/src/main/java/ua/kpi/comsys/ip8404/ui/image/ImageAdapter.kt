@@ -2,6 +2,7 @@ package ua.kpi.comsys.ip8404.ui.image
 
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
@@ -11,14 +12,16 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import ua.kpi.comsys.ip8404.R
 
-class ImageAdapter(private val context: Context, var dataSource: MutableList<Uri>) : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>(){
+class ImageAdapter(private val context: Context, var dataSource: MutableList<Bitmap>) :
+    RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
 
-    class ImageViewHolder(private val view: View) : RecyclerView.ViewHolder(view){
+    class ImageViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.id_image_picture) as ImageView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        val imageLayout = LayoutInflater.from(parent.context).inflate(R.layout.picture_item, parent, false)
+        val imageLayout =
+            LayoutInflater.from(parent.context).inflate(R.layout.picture_item, parent, false)
         return ImageViewHolder(imageLayout)
     }
 
@@ -29,7 +32,7 @@ class ImageAdapter(private val context: Context, var dataSource: MutableList<Uri
         param.columnSpec = GridLayout.spec(0, 2, null, 1F);
 
         holder.imageView.layoutParams = param
-        holder.imageView.setImageURI(dataSource[position])
+        holder.imageView.setImageBitmap(dataSource[position])
     }
 
     override fun getItemCount(): Int {

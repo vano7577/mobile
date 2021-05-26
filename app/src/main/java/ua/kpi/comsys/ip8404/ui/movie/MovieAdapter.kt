@@ -2,11 +2,20 @@ package ua.kpi.comsys.ip8404.ui.movie
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
+import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ua.kpi.comsys.ip8404.R
 import java.util.*
 
@@ -17,7 +26,8 @@ class MovieAdapter(private val context: Context, var data: MutableList<Movie>) :
     init {
         dataFiltered = data
     }
-    class MovieViewHolder(private val view: View) : RecyclerView.ViewHolder(view){
+
+    class MovieViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         val relativeLayoutView = view.findViewById(R.id.relLay) as View
         val titleTextView = view.findViewById(R.id.id_title) as TextView
         val yearTextView = view.findViewById(R.id.id_year) as TextView
@@ -31,6 +41,7 @@ class MovieAdapter(private val context: Context, var data: MutableList<Movie>) :
         return MovieViewHolder(bookItemLayout)
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         var movie = Movie()
         movie = movie.validate(dataFiltered[position])
@@ -43,10 +54,20 @@ class MovieAdapter(private val context: Context, var data: MutableList<Movie>) :
         holder.titleTextView.text = (movie.Title)
         holder.yearTextView.text = movie.Year
         holder.typeTextView.text = (movie.Type)
-        holder.PosterView.setImageDrawable(readPoster(movie.Poster, context))
-
-
+        if (movie.Poster == "N/A" || movie.Poster == "") holder.PosterView.setImageBitmap(
+            BitmapFactory.decodeStream(context.assets.open("movie.png"))
+        )
+        else {
+            CoroutineScope(IO).launch {
+                val bitmap = getBitmapFromURL(movie.Poster)
+                withContext(Dispatchers.Main) {
+                    holder.PosterView.setPadding(-50)
+                    holder.PosterView.setImageBitmap(bitmap)
+                }
+            }
+        }
     }
+
     override fun getFilter(): Filter {
 
         return object : Filter() {
@@ -79,5 +100,6 @@ class MovieAdapter(private val context: Context, var data: MutableList<Movie>) :
             }
         }
     }
+
     override fun getItemCount(): Int = dataFiltered.size
 }
